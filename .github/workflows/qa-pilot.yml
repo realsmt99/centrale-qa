@@ -69,3 +69,40 @@ jobs:
         with:
           name: qa-pilot-review-issue-${{ github.event.issue.number }}
           path: reports/qa-pilot/
+
+  write:
+    name: Write the approved tests and open a pull request
+    needs: review
+    runs-on: ubuntu-latest
+    # Needs more rights than the other jobs: it pushes a branch and opens a PR.
+    # It never pushes to main. Requires the repo setting
+    # "Allow GitHub Actions to create and approve pull requests".
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Configure the bot's git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Write tests, run them once, open a PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run qa:issue-write
+      - name: Save the AI log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pilot-write-issue-${{ github.event.issue.number }}
+          path: reports/qa-pilot/

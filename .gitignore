@@ -32,3 +32,6 @@ reports/
 
 # Private answer key (never commit)
 HIDDEN_BUGS.md
+
+# QA Pilot temporary run files
+tests/generated/.qa-pilot-run-*
