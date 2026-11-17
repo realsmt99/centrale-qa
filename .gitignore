@@ -35,3 +35,10 @@ HIDDEN_BUGS.md
 
 # QA Pilot temporary run files
 tests/generated/.qa-pilot-run-*
+
+# Playwright
+test-results/
+playwright-report/
+
+# Private evaluation data (answer key labels)
+eval-private/
