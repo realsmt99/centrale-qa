@@ -14,6 +14,8 @@ import { dealerSyncRoutes } from "./routes/dealer-sync";
 import { pricingRoutes } from "./routes/pricing";
 import { listingsRoutes } from "./routes/listings";
 import { TemplateListingWriter, type ListingWriter } from "./listing-writer";
+import { chatRoutes } from "./routes/chat";
+import { TemplateChatWriter, type ChatWriter } from "./chat";
 
 export interface AppOptions {
   db: DB;
@@ -23,6 +25,8 @@ export interface AppOptions {
   docsUi?: boolean;
   /** Who writes ads. Default: the free template writer (so tests never call a paid API). */
   listingWriter?: ListingWriter;
+  /** Who answers buyers' questions. Default: the free template writer. */
+  chatWriter?: ChatWriter;
 }
 
 export async function buildApp({
@@ -31,6 +35,7 @@ export async function buildApp({
   logger = false,
   docsUi = false,
   listingWriter = new TemplateListingWriter(),
+  chatWriter = new TemplateChatWriter(),
 }: AppOptions) {
   const app = Fastify({ logger });
 
@@ -64,6 +69,7 @@ export async function buildApp({
   await app.register(dealerSyncRoutes, { db }); // unreliable upstream (flaky on purpose)
   await app.register(pricingRoutes, { db }); // Phase 3: price estimate
   await app.register(listingsRoutes, { db, writer: listingWriter }); // Phase 3: AI ad writer
+  await app.register(chatRoutes, { db, writer: chatWriter }); // Phase 3: AI chat
 
   await app.ready();
   return app;
