@@ -1,0 +1,71 @@
+# QA Pilot on GitHub Issues.
+#
+# A user story is a GitHub Issue. Labels drive the pipeline:
+#   qa-pilot:design   -> the AI proposes test cases as a checklist comment
+#   qa-pilot:approved -> the human's ticks and edits are read back and recorded
+#
+# Only people with triage/write access can add labels, so random visitors
+# can't spend the API budget. The issue text is untrusted input: it is read
+# through the GitHub API by our script, never pasted into a shell command.
+name: QA Pilot
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: qa-pilot-issue-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  design:
+    name: Propose test cases on the issue
+    if: github.event.label.name == 'qa-pilot:design'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Design and post proposals
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          # Claude if this secret exists, otherwise the free rule-based mock.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run qa:issue-design
+      - name: Save proposals and AI log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pilot-design-issue-${{ github.event.issue.number }}
+          path: reports/qa-pilot/
+
+  review:
+    name: Record the human review
+    if: github.event.label.name == 'qa-pilot:approved'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Read ticks and edits, post a summary
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: npm run qa:issue-review
+      - name: Save review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pilot-review-issue-${{ github.event.issue.number }}
+          path: reports/qa-pilot/
