@@ -46,6 +46,13 @@ export const REQUEST_EXAMPLES: Record<string, RequestExample> = {
     auth: true,
     body: { versionId: 9, year: 2024, mileageKm: 30000, price: 18600, color: "blanc", options: ["heated_seats"] },
   },
+  "POST /chat": {
+    method: "POST",
+    url: "/chat",
+    auth: true,
+    body: { listingId: 1, question: "Quel est le kilométrage ?" },
+    setup: `await request(app.server).post("/feeds/import?dealerId=D001").set(authHeader).send({ cars: [{ externalRef: "REF-1001", versionId: 9, year: 2024, mileageKm: 30000, price: 18600 }] }); // creates listing 1`,
+  },
 };
 
 /** The fixed header of every generated file. The AI never writes imports. */

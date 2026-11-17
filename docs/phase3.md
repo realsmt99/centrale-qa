@@ -4,8 +4,8 @@
 |---|---|---|
 | 1 | Price estimate, `GET /pricing` | **done** |
 | 2 | AI ad writer, `POST /listings/generate` | **done** |
-| 3 | AI chat about a car, `POST /chat` | next |
-| 4 | Testing at scale: data-driven and metamorphic tests on thousands of cars, parallel CI jobs, nightly run | planned |
+| 3 | AI chat about a car, `POST /chat` | **done** |
+| 4 | Testing at scale: data-driven and metamorphic tests on thousands of cars, parallel CI jobs, nightly run | next |
 
 Steps 1 to 3 add features to Mini La Centrale (each with its own simple tests). Step 4 adds the big automatic test suites that should find what the simple tests miss.
 
@@ -88,3 +88,37 @@ curl -X POST localhost:3000/listings/generate -H "Authorization: Bearer dev-toke
 - **Facts are separated from wording**: the risky part of AI text is saying something false. Keeping the facts next to the text makes "is this ad true?" a question code can answer.
 - **Tests never call a paid API**: the app uses the template writer unless the server is started with a key, so tests are free and give the same result every time.
 - **Errors from the AI provider stay internal**: the user gets a clean 502, the details go to the server log.
+
+## Step 3: AI chat about a car
+
+### What it does
+A signed-in buyer asks a question about a car for sale and gets an instant answer **in French**, built only from that car's data.
+
+```bash
+curl -X POST localhost:3000/chat -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" -d '{"listingId": 98, "question": "Elle a la clim ? Où peut-on la voir ?"}'
+# "Oui, elle a : climatisation. Elle se trouve à Lyon, chez Garage Lyon 5."
+```
+
+### How it works
+1. **Facts**: the listing (year, mileage, price, colour), its catalogue version (fuel, gearbox, power, standard equipment) and the dealer (name, city).
+2. **A writer answers**: Claude when the server has an API key, otherwise a free template that recognises common topics: price, mileage, year, motorisation, one piece of equipment ("Elle a la clim ?" -> yes/no), all equipment, availability, location. Several topics in one question get one answer each.
+3. **Unknown question**: "Je n'ai pas cette information... contactez le vendeur." The chat never guesses.
+4. The **facts come back with the answer**, so it can be checked like the ads.
+
+Small detail that matters in French: the template matches whole words, accents included, so "ou" (or) is not read as "où" (where).
+
+### Errors
+| Case | Answer |
+|---|---|
+| No token | 401 |
+| Empty question, or over 500 characters | 400 |
+| Unknown listing | 404 |
+| Car already sold | 410 (in the API contract) |
+| Chat writer down | 502, internal error not leaked |
+
+### Tests
+`tests/chat.test.ts`: 14 tests (topics, unknown question, "ou" vs "où", errors, a broken writer for the 502). The user story is `stories/US-004-chat.md`.
+
+### Shared code
+The chat reuses the ad writer's French wording for motorisation (`drivetrainFr()`) and equipment (`EQUIPMENT_FR`). One wording for the whole site, so ads and chat answers never disagree with each other. If that shared wording were ever wrong, both features would be wrong in the same way, and a good test report should show it as **one** cause, not two.

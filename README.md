@@ -40,6 +40,7 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | **Phase 2 complete** | done |
 | Phase 3, step 1: price estimate (`GET /pricing`) | done |
 | Phase 3, step 2: AI ad writer (`POST /listings/generate`) | done |
-| Phase 3, step 3: AI chat about a car | next |
+| Phase 3, step 3: AI chat about a car (`POST /chat`) | done |
+| Phase 3, step 4: testing at scale (data-driven, metamorphic, parallel, nightly) | next |
 
 Details: [docs/phase1.md](docs/phase1.md) (the app), [docs/phase2.md](docs/phase2.md) (QA Pilot), [docs/phase3.md](docs/phase3.md) (more features, testing at scale).

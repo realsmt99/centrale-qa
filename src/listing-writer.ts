@@ -132,9 +132,14 @@ export interface ListingWriter {
 }
 
 /** 12345 -> "12 345" (French style, with a normal space). */
-const fr = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+export const formatFr = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+const fr = formatFr;
 
-/** Fuel and drivetrain wording, as it appears in ads. */
+/** Fuel and drivetrain wording, as it appears in ads (also used by the chat). */
+export function drivetrainFr(fuel: string): string {
+  return DRIVETRAIN_FR[fuel] ?? fuel;
+}
+
 const DRIVETRAIN_FR: Record<string, string> = {
   petrol: "essence, boîte manuelle",
   diesel: "diesel, boîte manuelle",
@@ -157,7 +162,7 @@ export class TemplateListingWriter implements ListingWriter {
 
   async write(f: ListingFacts) {
     const sentences = [
-      `À vendre : ${f.brand} ${f.model} ${f.version} de ${f.year}, ${fr(f.mileageKm)} km, ${DRIVETRAIN_FR[f.fuel]}, ${f.powerHp} ch.`,
+      `À vendre : ${f.brand} ${f.model} ${f.version} de ${f.year}, ${fr(f.mileageKm)} km, ${drivetrainFr(f.fuel)}, ${f.powerHp} ch.`,
       `Équipements : ${f.equipment.map((e) => EQUIPMENT_FR[e]?.[0] ?? e).join(", ")}.`,
     ];
     const trim = TRIM_COPY.find(([pattern]) => pattern.test(f.version));
