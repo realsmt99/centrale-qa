@@ -24,7 +24,8 @@ export interface ReferenceVersion {
   optionalEquipment: string[];
 }
 
-const SCHEMA = `
+/** The database schema (also given to QA Pilot so it can propose correct SQL checks). */
+export const SCHEMA_SQL = `
 -- Reference catalogue: one row per exact version (e.g. "Peugeot 208 1.2 PureTech 100 Allure").
 CREATE TABLE IF NOT EXISTS versions (
   id                 INTEGER PRIMARY KEY,
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS listings (
 export function openDb(path = ":memory:"): DB {
   const db = new Database(path);
   db.pragma("foreign_keys = ON");
-  db.exec(SCHEMA);
+  db.exec(SCHEMA_SQL);
   return db;
 }
 

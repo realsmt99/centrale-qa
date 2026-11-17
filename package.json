@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "test": "jest --testPathIgnorePatterns bughunt flaky",
     "test:bughunt": "jest bughunt flaky --passWithNoTests",
-    "test:all": "jest"
+    "test:all": "jest",
+    "openapi": "tsx scripts/export-openapi.ts",
+    "qa:design": "tsx qa-pilot/cli/design.ts"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -27,10 +29,12 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.10.0",
     "@fastify/swagger": "^9.9.5",
     "@fastify/swagger-ui": "^6.1.4",
     "better-sqlite3": "^13.2.0",
-    "fastify": "^5.12.8"
+    "fastify": "^5.12.8",
+    "zod": "^4.6.7"
   },
   "private": true,
   "engines": {

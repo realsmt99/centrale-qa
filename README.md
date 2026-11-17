@@ -19,6 +19,7 @@ npm run seed        # builds data/centrale.db (5,000 listings)
 npm run dev         # http://localhost:3000, API docs at /docs
 npm test            # regression tests (must pass)
 npm run test:bughunt  # known-bug and flaky tests (expected to fail)
+npm run qa:design -- stories/US-001-price-update.md   # AI-proposed test cases
 ```
 
 Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to change it).
@@ -32,6 +33,8 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | Module 2: plate lookup (`GET /vehicles/:plate`) | done |
 | Module 3: search (`GET /search`, price ratings) + flaky `GET /dealer-sync/status` | done |
 | CI (GitHub Actions: regression + bug-hunt jobs) | done |
-| **Phase 1 complete.** Next: Phase 2, QA Pilot core (AI test design) | next |
+| **Phase 1 complete** | done |
+| Phase 2, step 2: AI test designer (`npm run qa:design`), guardrails, AI action log | done |
+| Phase 2, step 3: human approval on a GitHub Issue | next |
 
-Details for each step are in [docs/phase1.md](docs/phase1.md).
+Details: [docs/phase1.md](docs/phase1.md) (the app), [docs/phase2.md](docs/phase2.md) (QA Pilot).
