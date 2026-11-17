@@ -662,6 +662,167 @@
           }
         }
       }
+    },
+    "/pricing": {
+      "get": {
+        "summary": "Suggest a price from the exact version, year and mileage",
+        "tags": [
+          "pricing"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "versionId",
+            "required": true,
+            "description": "Catalogue version (from GET /vehicles/:plate)"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1990,
+              "maximum": 2100
+            },
+            "in": "query",
+            "name": "year",
+            "required": true,
+            "description": "Year of first registration"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2000000
+            },
+            "in": "query",
+            "name": "mileageKm",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "versionId": {
+                      "type": "integer"
+                    },
+                    "year": {
+                      "type": "integer"
+                    },
+                    "mileageKm": {
+                      "type": "integer"
+                    },
+                    "estimatedPrice": {
+                      "type": "integer",
+                      "description": "Suggested asking price in euros"
+                    },
+                    "range": {
+                      "type": "object",
+                      "properties": {
+                        "low": {
+                          "type": "integer"
+                        },
+                        "high": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "basis": {
+                      "type": "object",
+                      "description": "How the estimate was built",
+                      "properties": {
+                        "newPrice": {
+                          "type": "integer"
+                        },
+                        "ageYears": {
+                          "type": "integer"
+                        },
+                        "shareKept": {
+                          "type": "number",
+                          "description": "Share of the new price kept at this age"
+                        },
+                        "mileageFactor": {
+                          "type": "number"
+                        },
+                        "comparableListings": {
+                          "type": "integer",
+                          "description": "Active listings with the same version and year"
+                        },
+                        "marketAverage": {
+                          "type": "integer",
+                          "description": "Their average price",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -13,7 +13,8 @@ import { existsSync, rmSync } from "node:fs";
 import { loadReferenceVersions, openDb, type DB, type ReferenceVersion } from "../src/db";
 import referenceVersions from "./reference-versions.json";
 
-export const REFERENCE_YEAR = 2026; // "today" for the synthetic market
+import { REFERENCE_YEAR } from "../src/market";
+export { REFERENCE_YEAR };
 
 /** Small seeded random generator (mulberry32): same seed -> same numbers. */
 export function makeRng(seed: number) {
