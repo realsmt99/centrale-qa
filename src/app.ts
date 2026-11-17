@@ -8,6 +8,7 @@ import type { DB } from "./db";
 import { requireToken } from "./auth";
 import { healthRoutes } from "./routes/health";
 import { feedsRoutes } from "./routes/feeds";
+import { vehiclesRoutes } from "./routes/vehicles";
 
 export interface AppOptions {
   db: DB;
@@ -45,7 +46,8 @@ export async function buildApp({ db, apiToken, logger = false, docsUi = false }:
 
   await app.register(healthRoutes, { db });
   await app.register(feedsRoutes, { db }); // Module 1: stock import
-  // Next modules: vehicles, search...
+  await app.register(vehiclesRoutes, { db }); // Module 2: plate lookup
+  // Next module: search
 
   await app.ready();
   return app;

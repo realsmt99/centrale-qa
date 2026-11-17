@@ -4,6 +4,7 @@
  * Builds data/centrale.db from the reference catalogue:
  *   - 20 dealers
  *   - 5,000 used-car listings, each with a unique French plate
+ *   - 5,000 registry entries (what each plate's registration card says)
  *
  * Everything is generated (no scraping). A fixed seed means the same
  * data every run, so test results can be compared from one run to the next.
@@ -60,7 +61,8 @@ export function seed(db: DB, { listings = 5000, dealers = 20, seedValue = 42 } =
   loadReferenceVersions(db);
 
   const insertDealer = db.prepare("INSERT INTO dealers (id, name, city) VALUES (?, ?, ?)");
-  const insertPlate = db.prepare("INSERT INTO plates (plate, version_id, first_registration) VALUES (?, ?, ?)");
+  const insertPlate = db.prepare(`
+    INSERT INTO plates (plate, brand, model, fuel, power_hp, first_registration) VALUES (?, ?, ?, ?, ?, ?)`);
   const insertListing = db.prepare(`
     INSERT INTO listings (dealer_id, external_ref, version_id, plate, year, mileage_km, price, color, status)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active')`);
@@ -87,7 +89,7 @@ export function seed(db: DB, { listings = 5000, dealers = 20, seedValue = 42 } =
       usedPlates.add(plate);
 
       const month = String(rng.int(1, 12)).padStart(2, "0");
-      insertPlate.run(plate, v.id, `${year}-${month}-01`);
+      insertPlate.run(plate, v.brand, v.model, v.fuel, v.powerHp, `${year}-${month}-01`);
       insertListing.run(
         rng.pick(dealerIds),
         `REF-${String(i).padStart(6, "0")}`,

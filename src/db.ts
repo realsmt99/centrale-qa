@@ -41,10 +41,15 @@ CREATE TABLE IF NOT EXISTS versions (
   optional_equipment TEXT    NOT NULL  -- JSON array
 );
 
--- License plate -> exact version (what "plate lookup" uses).
+-- Simulated national registry (SIV): what the registration card says.
+-- It does NOT know the exact catalogue version: the plate lookup must
+-- match these fields to one row in "versions".
 CREATE TABLE IF NOT EXISTS plates (
   plate              TEXT PRIMARY KEY,           -- French SIV format: AB-123-CD
-  version_id         INTEGER NOT NULL REFERENCES versions(id),
+  brand              TEXT    NOT NULL,
+  model              TEXT    NOT NULL,
+  fuel               TEXT    NOT NULL,
+  power_hp           INTEGER NOT NULL,
   first_registration TEXT    NOT NULL            -- YYYY-MM-DD
 );
 

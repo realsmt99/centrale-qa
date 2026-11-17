@@ -70,3 +70,32 @@ Rejected feeds: 401 (no token), 404 (unknown dealer), 400 (unknown `versionId`, 
 
 ### Try it
 See `data/samples/README.md` for ready-to-paste `curl` commands.
+
+## Step 3: Module 2, plate lookup
+
+### What it does
+`GET /vehicles/:plate` turns a French plate into the **exact catalogue version**, so a seller's ad can be pre-filled: brand, model, version, fuel, gearbox, power, standard and optional equipment, and new price. Public endpoint (no token).
+
+It works in two steps, like in real life:
+1. **Registry**: the `plates` table simulates the national registry (SIV). It holds what the registration card says: brand, model, fuel, power, first registration date. It does not know the exact version.
+2. **Catalogue match**: the app finds the one version in `versions` that fits the registration data.
+
+| Input | Result |
+|---|---|
+| `AB-123-CD`, `ab123cd`, `ab 123 cd` | Normalized to `AB-123-CD` |
+| Not a plate (`HELLO`, wrong format, letters I/O/U) | 400 |
+| Valid plate, not in the registry | 404 |
+| Registered, but no catalogue version fits | 422 |
+| Registered and matched | 200 + vehicle |
+
+### Files
+| File | Role |
+|---|---|
+| `src/vehicles.ts` | `normalizePlate`, registry read, catalogue match |
+| `src/routes/vehicles.ts` | HTTP route and response schema |
+| `tests/vehicles.test.ts` | 18 tests: plate formats, 200/400/404/422, agreement with the registry |
+
+### Design choices (simple version)
+- **Normalize input, don't reject it**: users type plates in many ways. Accepting all common forms and returning one canonical form avoids false "not found" errors.
+- **Distinct error codes**: 400 (your input is wrong), 404 (we don't know this plate), 422 (we know it but can't identify the version). Each one points to a different fix.
+- **The registry is separate from the catalogue**: identifying a version from registration data is a real matching problem, and the place where wrong answers come from. Modelling it honestly makes the tests meaningful.
