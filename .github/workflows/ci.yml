@@ -2,8 +2,9 @@
 #
 # Two jobs, on purpose:
 #   regression -> tests that MUST pass. A red result blocks the merge.
-#   bughunt    -> tests that hit known (planted) bugs. They are expected to fail,
-#                 so this job may fail without blocking anything. Its JUnit report
+#   bughunt    -> tests that hit known (planted) bugs, plus flaky tests. They are
+#                 expected to fail (sometimes or always), so this job may fail
+#                 without blocking anything. Its JUnit report
 #                 is saved for QA Pilot's AI triage (Phase 4).
 name: CI
 
@@ -38,7 +39,7 @@ jobs:
           path: reports/
 
   bughunt:
-    name: Bug-hunt tests (known bugs, allowed to fail)
+    name: Bug-hunt and flaky tests (allowed to fail)
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:

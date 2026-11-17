@@ -9,6 +9,8 @@ import { requireToken } from "./auth";
 import { healthRoutes } from "./routes/health";
 import { feedsRoutes } from "./routes/feeds";
 import { vehiclesRoutes } from "./routes/vehicles";
+import { searchRoutes } from "./routes/search";
+import { dealerSyncRoutes } from "./routes/dealer-sync";
 
 export interface AppOptions {
   db: DB;
@@ -47,7 +49,8 @@ export async function buildApp({ db, apiToken, logger = false, docsUi = false }:
   await app.register(healthRoutes, { db });
   await app.register(feedsRoutes, { db }); // Module 1: stock import
   await app.register(vehiclesRoutes, { db }); // Module 2: plate lookup
-  // Next module: search
+  await app.register(searchRoutes, { db }); // Module 3: search
+  await app.register(dealerSyncRoutes, { db }); // unreliable upstream (flaky on purpose)
 
   await app.ready();
   return app;
