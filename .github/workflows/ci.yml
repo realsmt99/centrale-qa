@@ -60,3 +60,28 @@ jobs:
         with:
           name: junit-bughunt
           path: reports/
+
+  qa-pilot-design:
+    name: QA Pilot test design (proposals only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Propose test cases for every story
+        # Uses Claude when the ANTHROPIC_API_KEY secret exists, otherwise the free rule-based mock.
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          for story in stories/*.md; do
+            npm run qa:design -- "$story"
+          done
+      - name: Save proposals and the AI action log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pilot-proposals
+          path: reports/qa-pilot/
