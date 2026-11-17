@@ -39,6 +39,7 @@ export const REQUEST_EXAMPLES: Record<string, RequestExample> = {
     setup: "loadSearchFixture(db);",
   },
   "GET /dealer-sync/status": { method: "GET", url: "/dealer-sync/status", auth: false },
+  "GET /pricing": { method: "GET", url: "/pricing?versionId=9&year=2024&mileageKm=30000", auth: false },
 };
 
 /** The fixed header of every generated file. The AI never writes imports. */

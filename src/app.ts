@@ -11,6 +11,7 @@ import { feedsRoutes } from "./routes/feeds";
 import { vehiclesRoutes } from "./routes/vehicles";
 import { searchRoutes } from "./routes/search";
 import { dealerSyncRoutes } from "./routes/dealer-sync";
+import { pricingRoutes } from "./routes/pricing";
 
 export interface AppOptions {
   db: DB;
@@ -51,6 +52,7 @@ export async function buildApp({ db, apiToken, logger = false, docsUi = false }:
   await app.register(vehiclesRoutes, { db }); // Module 2: plate lookup
   await app.register(searchRoutes, { db }); // Module 3: search
   await app.register(dealerSyncRoutes, { db }); // unreliable upstream (flaky on purpose)
+  await app.register(pricingRoutes, { db }); // Phase 3: price estimate
 
   await app.ready();
   return app;
