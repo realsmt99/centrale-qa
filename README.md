@@ -18,6 +18,7 @@ npm install
 npm run seed        # builds data/centrale.db (5,000 listings)
 npm run dev         # http://localhost:3000, API docs at /docs
 npm test            # regression tests (must pass)
+npm run test:scale  # rules checked on thousands of cars (expected to find bugs)
 npm run test:bughunt  # known-bug and flaky tests (expected to fail)
 npm run qa:design -- stories/US-001-price-update.md   # AI-proposed test cases
 ```
@@ -41,6 +42,7 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | Phase 3, step 1: price estimate (`GET /pricing`) | done |
 | Phase 3, step 2: AI ad writer (`POST /listings/generate`) | done |
 | Phase 3, step 3: AI chat about a car (`POST /chat`) | done |
-| Phase 3, step 4: testing at scale (data-driven, metamorphic, parallel, nightly) | next |
+| Phase 3, step 4: testing at scale (data-driven, metamorphic, parallel CI, nightly) | done |
+| **Phase 3 complete.** Next: Phase 4, AI triage + reports + measured results | next |
 
 Details: [docs/phase1.md](docs/phase1.md) (the app), [docs/phase2.md](docs/phase2.md) (QA Pilot), [docs/phase3.md](docs/phase3.md) (more features, testing at scale).

@@ -1,0 +1,99 @@
+# Nightly full run: every test, every car.
+#
+# On each push, the scale tests check a spread-out sample of cars (quick).
+# Every night, they check ALL cars (SCALE=full), split into 4 parallel jobs,
+# together with the regression, bug-hunt and flaky tests. The JUnit reports
+# are kept 30 days: Phase 4 (AI triage and dashboard) reads them.
+name: Nightly full run
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # every day at 03:00 UTC
+  workflow_dispatch: # also runnable by hand from the Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  scale:
+    name: Scale tests ${{ matrix.shard }}/4 (all cars)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run all scale tests on every car, part ${{ matrix.shard }} of 4
+        run: npx jest scale --shard=${{ matrix.shard }}/4 --ci --reporters=default --reporters=jest-junit
+        env:
+          SCALE: full
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: scale-${{ matrix.shard }}.xml
+          JEST_JUNIT_CLASSNAME: "{classname}"
+          JEST_JUNIT_TITLE: "{title}"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-scale-${{ matrix.shard }}
+          path: reports/
+          retention-days: 30
+
+  other-tests:
+    name: Regression, bug-hunt and flaky tests
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Regression (must pass)
+        run: npm test -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: regression.xml
+          JEST_JUNIT_CLASSNAME: "{classname}"
+          JEST_JUNIT_TITLE: "{title}"
+      - name: Bug-hunt and flaky (expected to fail)
+        if: always()
+        run: npm run test:bughunt -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: bughunt.xml
+          JEST_JUNIT_CLASSNAME: "{classname}"
+          JEST_JUNIT_TITLE: "{title}"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-other
+          path: reports/
+          retention-days: 30
+
+  summary:
+    name: Nightly summary
+    needs: [scale, other-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: nightly-*
+          path: reports
+          merge-multiple: true
+      - name: One table for every rule and test file
+        run: npx tsx scripts/junit-summary.ts reports/*.xml
