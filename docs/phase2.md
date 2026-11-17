@@ -4,10 +4,10 @@ QA Pilot turns a user story into tests, with a human in control at every key ste
 
 | Step | Who | Status |
 |---|---|---|
-| 1. User story | Human (Markdown file, later a GitHub Issue) | done |
+| 1. User story | Human (GitHub Issue, or a Markdown file in `stories/`) | done |
 | 2. Propose test cases | AI, checked by guardrails | **done** |
-| 3. Approve, edit or reject each case | Human (checklist on the GitHub Issue) | next |
-| 4. Write the approved tests as code, run them once, open a PR | AI, checked by guardrails | planned |
+| 3. Approve, edit or reject each case | Human (checklist on the GitHub Issue) | **done** |
+| 4. Write the approved tests as code, run them once, open a PR | AI, checked by guardrails | next |
 
 > Core principle: the AI proposes, explores and analyzes. Pass/fail decisions stay deterministic, and a human validates the key steps.
 
@@ -59,3 +59,37 @@ The job **"QA Pilot test design (proposals only)"** runs the designer on every s
 - **Guardrails are code, not prompt text**: telling the AI "only use real endpoints" helps, but checking against `openapi.json` is what guarantees it.
 - **A mock with the same interface**: the pipeline is testable and free. Tests use fakes to prove the guardrails catch invented endpoints and dangerous SQL.
 - **`openapi.json` is committed and tested**: a test fails if the API changes without regenerating it, so the AI always reads the real contract.
+
+## Step 3: human approval on a GitHub Issue
+
+The user story is a GitHub Issue (for example *"US-001: A dealer changes a listing's price"*). Two labels drive the pipeline (workflow `.github/workflows/qa-pilot.yml`):
+
+| Label added by a human | What happens |
+|---|---|
+| `qa-pilot:design` | QA Pilot reads the issue, proposes test cases, and posts them as a **checklist comment** |
+| `qa-pilot:approved` | QA Pilot reads the checklist back and posts a **review summary** |
+
+### What the reviewer does
+1. **Tick** the cases to keep. Unticked cases count as rejected.
+2. **Edit** a case's title, `Steps:` or `Expected:` line if it's almost right.
+3. **Add guidance** for the test writer under a case: `  - Note: also try a wrong token`.
+4. Add the label `qa-pilot:approved`.
+
+### What QA Pilot records
+- Per case: approved or rejected, which fields the human edited, and any note.
+- Totals: proposed, approved as-is, approved after edits, rejected, and the **acceptance rate** (approved / proposed). This is one of the numbers for the final report.
+- The summary comment stores the approved cases, hidden, so the test writer (step 4) can read them straight from the issue. The issue thread is the record of who decided what.
+
+### Run it without the workflow
+```bash
+npm run qa:issue-design -- 6           # post proposals on issue #6
+npm run qa:issue-review -- 6 --dry-run # read the ticks back, print the result, post nothing
+npm run qa:issue-review -- 6           # same, and post the summary comment
+```
+These use your own `gh` login, so comments appear under your GitHub account. From the workflow they appear as `github-actions[bot]`.
+
+### Design choices (simple version)
+- **The original proposals are stored inside the comment** (hidden HTML comment with base64 JSON). Comparing them with the edited checklist shows exactly what the human changed, without a database.
+- **Labels as the trigger**: only people with triage or write access can add labels, so a stranger opening an issue on a public repo can't start the AI or spend the API budget.
+- **Issue text is untrusted input**: the script reads it through the GitHub API and passes data to `gh` as arguments and stdin, never through a shell. The workflow never puts issue text inside a `run:` command.
+- **Endpoints can't be edited**: the reviewer can change the wording, steps and expected result, but the endpoint stays the one the guardrails checked against `openapi.json`.

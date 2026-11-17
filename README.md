@@ -35,6 +35,7 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | CI (GitHub Actions: regression + bug-hunt jobs) | done |
 | **Phase 1 complete** | done |
 | Phase 2, step 2: AI test designer (`npm run qa:design`), guardrails, AI action log | done |
-| Phase 2, step 3: human approval on a GitHub Issue | next |
+| Phase 2, step 3: human approval on a GitHub Issue (labels `qa-pilot:design`, `qa-pilot:approved`) | done |
+| Phase 2, step 4: AI test writer (approved cases -> Jest tests -> PR) | next |
 
 Details: [docs/phase1.md](docs/phase1.md) (the app), [docs/phase2.md](docs/phase2.md) (QA Pilot).

@@ -11,7 +11,9 @@
     "test:bughunt": "jest bughunt flaky --passWithNoTests",
     "test:all": "jest",
     "openapi": "tsx scripts/export-openapi.ts",
-    "qa:design": "tsx qa-pilot/cli/design.ts"
+    "qa:design": "tsx qa-pilot/cli/design.ts",
+    "qa:issue-design": "tsx qa-pilot/cli/issue-design.ts",
+    "qa:issue-review": "tsx qa-pilot/cli/issue-review.ts"
   },
   "author": "",
   "license": "UNLICENSED",
