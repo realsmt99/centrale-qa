@@ -11,7 +11,7 @@
  * same version and year, and their average price.
  */
 import type { DB } from "./db";
-import { REFERENCE_YEAR } from "./market";
+import { REFERENCE_YEAR, soldYears } from "./market";
 
 /** Share of the new price a car keeps, by age in years (index = age; older cars use the last value). */
 export const DEPRECIATION_BY_AGE = [1.0, 0.85, 0.72, 0.61, 0.52, 0.44, 0.32, 0.38, 0.27, 0.23, 0.2, 0.17, 0.15];
@@ -49,9 +49,9 @@ export function estimatePrice(db: DB, q: { versionId: number; year: number; mile
   if (!v) return { status: "unknown_version" };
 
   // A version can only be priced for the years it was actually sold.
-  const soldTo = Math.min(v.year_end ?? REFERENCE_YEAR, REFERENCE_YEAR);
-  if (q.year < v.year_start || q.year > soldTo) {
-    return { status: "year_out_of_range", soldFrom: v.year_start, soldTo };
+  const sold = soldYears(v);
+  if (q.year < sold.from || q.year > sold.to) {
+    return { status: "year_out_of_range", soldFrom: sold.from, soldTo: sold.to };
   }
 
   const ageYears = REFERENCE_YEAR - q.year;

@@ -12,6 +12,8 @@ import { vehiclesRoutes } from "./routes/vehicles";
 import { searchRoutes } from "./routes/search";
 import { dealerSyncRoutes } from "./routes/dealer-sync";
 import { pricingRoutes } from "./routes/pricing";
+import { listingsRoutes } from "./routes/listings";
+import { TemplateListingWriter, type ListingWriter } from "./listing-writer";
 
 export interface AppOptions {
   db: DB;
@@ -19,9 +21,17 @@ export interface AppOptions {
   logger?: boolean;
   /** Serve the interactive Swagger page at /docs (off in tests: it is only for humans). */
   docsUi?: boolean;
+  /** Who writes ads. Default: the free template writer (so tests never call a paid API). */
+  listingWriter?: ListingWriter;
 }
 
-export async function buildApp({ db, apiToken, logger = false, docsUi = false }: AppOptions) {
+export async function buildApp({
+  db,
+  apiToken,
+  logger = false,
+  docsUi = false,
+  listingWriter = new TemplateListingWriter(),
+}: AppOptions) {
   const app = Fastify({ logger });
 
   // OpenAPI spec is generated from each route's schema. QA Pilot (Phase 2) reads it.
@@ -53,6 +63,7 @@ export async function buildApp({ db, apiToken, logger = false, docsUi = false }:
   await app.register(searchRoutes, { db }); // Module 3: search
   await app.register(dealerSyncRoutes, { db }); // unreliable upstream (flaky on purpose)
   await app.register(pricingRoutes, { db }); // Phase 3: price estimate
+  await app.register(listingsRoutes, { db, writer: listingWriter }); // Phase 3: AI ad writer
 
   await app.ready();
   return app;

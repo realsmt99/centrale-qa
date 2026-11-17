@@ -43,7 +43,9 @@ npm run qa:design -- stories/US-001-price-update.md
 | Quality | Understands the story, writes SQL checks, cross-endpoint scenarios | Simple rules: one normal case, 401, 400 per minimum, story-vs-spec bound gaps |
 | Used in | Real runs | CI without a key, tests, contributors |
 
-Force one with `QA_PILOT_AI=claude` or `QA_PILOT_AI=mock`. If Claude declines a request, the API retries it on a fallback model in the same call (`fallbacks: "default"`).
+Force one with `QA_PILOT_AI=claude` or `QA_PILOT_AI=mock`.
+
+The mock picks endpoints by matching words, which gets less precise as the API grows. When the ad writer (`POST /listings/generate`) was added in Phase 3, the mock started proposing cases for it on US-001 ("a dealer changes a listing's price"), only because both talk about a "listing" and a "price": 15 proposals instead of 10, the extra 5 irrelevant. Claude reads meaning, not keywords, so it shouldn't make this mistake. The acceptance rate is how we'd measure the difference. If Claude declines a request, the API retries it on a fallback model in the same call (`fallbacks: "default"`).
 
 ### Example: US-001 with the mock
 *"As a dealer, I can change the price of one of my listings. The new price must be above 0. The new price appears in search results."*

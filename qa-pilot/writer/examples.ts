@@ -40,6 +40,12 @@ export const REQUEST_EXAMPLES: Record<string, RequestExample> = {
   },
   "GET /dealer-sync/status": { method: "GET", url: "/dealer-sync/status", auth: false },
   "GET /pricing": { method: "GET", url: "/pricing?versionId=9&year=2024&mileageKm=30000", auth: false },
+  "POST /listings/generate": {
+    method: "POST",
+    url: "/listings/generate",
+    auth: true,
+    body: { versionId: 9, year: 2024, mileageKm: 30000, price: 18600, color: "blanc", options: ["heated_seats"] },
+  },
 };
 
 /** The fixed header of every generated file. The AI never writes imports. */
