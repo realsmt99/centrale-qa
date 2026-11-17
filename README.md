@@ -17,7 +17,8 @@ Needs Node.js 22 or newer.
 npm install
 npm run seed        # builds data/centrale.db (5,000 listings)
 npm run dev         # http://localhost:3000, API docs at /docs
-npm test            # regression tests
+npm test            # regression tests (must pass)
+npm run test:bughunt  # tests that hit known bugs (expected to fail)
 ```
 
 Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to change it).
@@ -27,8 +28,8 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | Step | Status |
 |---|---|
 | Foundation (app, DB, auth, health, seed data) | done |
-| Module 1: stock import | next |
-| Module 2: plate lookup | planned |
+| Module 1: stock import (`POST /feeds/import`, JSON + CSV) | done |
+| Module 2: plate lookup | next |
 | Module 3: search | planned |
 | CI (GitHub Actions: regression + bug-hunt jobs) | done |
 

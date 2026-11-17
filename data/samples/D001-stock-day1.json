@@ -1,0 +1,9 @@
+{
+  "cars": [
+    { "externalRef": "REF-1001", "versionId": 2,  "plate": "AB-123-CD", "year": 2022, "mileageKm": 38000, "price": 16900, "color": "gris" },
+    { "externalRef": "REF-1002", "versionId": 9,  "plate": "BC-234-DE", "year": 2023, "mileageKm": 21000, "price": 21500, "color": "blanc" },
+    { "externalRef": "REF-1003", "versionId": 15, "plate": "CD-345-EF", "year": 2021, "mileageKm": 52000, "price": 8900,  "color": "rouge" },
+    { "externalRef": "REF-1004", "versionId": 21, "plate": "DE-456-FG", "year": 2020, "mileageKm": 98000, "price": 17400, "color": "noir" },
+    { "externalRef": "REF-1005", "versionId": 26, "plate": "EF-567-GH", "year": 2022, "mileageKm": 34000, "price": 17900, "color": "bleu" }
+  ]
+}

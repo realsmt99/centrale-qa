@@ -36,3 +36,37 @@ npm test
    Each test builds its own app with an in-memory SQLite database. Nothing is shared, so the order of tests doesn't matter and they can run in parallel.
 3. **"Why is the data generated with a seed?"**
    Reproducibility. If a test fails today and passed yesterday, I want to know it's because of the code, not because the random data changed. With the same seed, the data is identical on my laptop and in CI.
+
+## Step 2: Module 1, stock import
+
+### What it does
+`POST /feeds/import?dealerId=D001` receives a dealer's **full current stock**, as JSON (`{"cars": [...]}`) or CSV (`text/csv`). It compares the feed with the database:
+
+| Feed vs database | Result |
+|---|---|
+| Car in the feed, not in the DB | created |
+| Car in both, price or mileage changed | updated |
+| Car in both, nothing changed | unchanged |
+| Active car in the DB, missing from the feed | marked sold |
+
+A car is identified by `(dealer_id, external_ref)`, the ID used by the dealer's own software. The whole import runs in one SQL transaction: either everything is saved or nothing is.
+
+Rejected feeds: 401 (no token), 404 (unknown dealer), 400 (unknown `versionId`, the same car twice, or a field that breaks the schema).
+
+### Files
+| File | Role |
+|---|---|
+| `src/stock.ts` | Import logic, no HTTP (easy to test directly) |
+| `src/routes/feeds.ts` | HTTP route: auth, JSON schema, CSV parser |
+| `data/samples/` | Small feeds: D001 day 1 / day 2 (JSON), D002 (CSV) |
+| `tests/feeds.test.ts` | 15 regression tests, including SQL consistency checks |
+| `tests/feeds.bughunt.test.ts` | Tests for business rules (run in the "allowed to fail" CI job) |
+
+### Design choices (simple version)
+- **Auth runs first** (`onRequest` hook), before the body is even read. Someone without a token gets 401 and learns nothing about our validation rules.
+- **One schema for JSON and CSV**: the CSV is converted to the same `{cars: [...]}` shape, then the same rules apply. Two formats, one set of rules, so they can't drift apart.
+- **SQL checks in tests**: the tests don't only check the API response, they also query the database ("is REF-1003 really `sold`?", "no duplicate active cars?"). The API can say "ok" while the data is wrong.
+- **Logic separate from HTTP** (`stock.ts` vs `routes/feeds.ts`): the import rules can be tested without a server.
+
+### Try it
+See `data/samples/README.md` for ready-to-paste `curl` commands.

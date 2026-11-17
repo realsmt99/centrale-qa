@@ -7,6 +7,7 @@ import swagger from "@fastify/swagger";
 import type { DB } from "./db";
 import { requireToken } from "./auth";
 import { healthRoutes } from "./routes/health";
+import { feedsRoutes } from "./routes/feeds";
 
 export interface AppOptions {
   db: DB;
@@ -43,7 +44,8 @@ export async function buildApp({ db, apiToken, logger = false, docsUi = false }:
   app.decorate("requireToken", requireToken(apiToken));
 
   await app.register(healthRoutes, { db });
-  // Modules are added here one by one (feeds, vehicles, search...).
+  await app.register(feedsRoutes, { db }); // Module 1: stock import
+  // Next modules: vehicles, search...
 
   await app.ready();
   return app;
