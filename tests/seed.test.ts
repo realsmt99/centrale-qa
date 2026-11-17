@@ -19,6 +19,16 @@ describe("synthetic data", () => {
     expect(orphans.n).toBe(0);
   });
 
+  it("registry data matches each listing's real version (the truth for plate lookup)", () => {
+    const mismatches = one<{ n: number }>(`
+      SELECT COUNT(*) AS n FROM listings l
+      JOIN versions v ON v.id = l.version_id
+      JOIN plates p ON p.plate = l.plate
+      WHERE p.brand <> v.brand OR p.model <> v.model OR p.fuel <> v.fuel OR p.power_hp <> v.power_hp
+         OR CAST(substr(p.first_registration, 1, 4) AS INTEGER) <> l.year`);
+    expect(mismatches.n).toBe(0);
+  });
+
   it("only uses years when the version was actually sold", () => {
     const bad = one<{ n: number }>(`
       SELECT COUNT(*) AS n FROM listings l JOIN versions v ON v.id = l.version_id
