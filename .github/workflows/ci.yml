@@ -4,7 +4,10 @@
 #   regression -> tests that MUST pass. A red result blocks the merge.
 #   bughunt    -> tests that hit known (planted) bugs, plus flaky tests. They are
 #                 expected to fail (sometimes or always), so this job may fail
-#                 without blocking anything. Its JUnit report
+#                 without blocking anything.
+#   scale      -> rules checked on thousands of cars (tests/scale), split into 3
+#                 jobs running in parallel. Non-blocking: they report bugs.
+#   scale-summary -> one table of all rules, on the run's summary page. Its JUnit report
 #                 is saved for QA Pilot's AI triage (Phase 4).
 name: CI
 
@@ -85,3 +88,53 @@ jobs:
         with:
           name: qa-pilot-proposals
           path: reports/qa-pilot/
+
+  scale:
+    name: Scale tests ${{ matrix.shard }}/3 (allowed to fail)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run scale tests (quick sample), part ${{ matrix.shard }} of 3
+        run: npx jest scale --shard=${{ matrix.shard }}/3 --ci --reporters=default --reporters=jest-junit
+        env:
+          SCALE: quick
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: scale-${{ matrix.shard }}.xml
+          JEST_JUNIT_CLASSNAME: "{classname}"
+          JEST_JUNIT_TITLE: "{title}"
+      - name: Save JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-scale-${{ matrix.shard }}
+          path: reports/
+
+  scale-summary:
+    name: Scale tests summary
+    needs: scale
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: junit-scale-*
+          path: reports
+          merge-multiple: true
+      - name: One table for all rules
+        run: npx tsx scripts/junit-summary.ts reports/scale-*.xml
