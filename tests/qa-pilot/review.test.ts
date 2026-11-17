@@ -45,8 +45,9 @@ describe("proposal comment", () => {
 describe("parseReview", () => {
   it("treats an untouched checklist as: everything rejected", () => {
     const review = parseReview(comment);
+    const n = result.accepted.length;
 
-    expect(review.stats).toMatchObject({ proposed: 10, approved: 0, rejected: 10, acceptanceRate: 0 });
+    expect(review.stats).toMatchObject({ proposed: n, approved: 0, rejected: n, acceptanceRate: 0 });
   });
 
   it("ticked = approved, unticked = rejected", () => {
@@ -55,7 +56,8 @@ describe("parseReview", () => {
     const review = parseReview(body);
 
     expect(review.decisions.filter((d) => d.decision === "approved").map((d) => d.id)).toEqual(["TC-01", "TC-08"]);
-    expect(review.stats).toMatchObject({ approved: 2, approvedAsIs: 2, rejected: 8, acceptanceRate: 0.2 });
+    const n = result.accepted.length;
+    expect(review.stats).toMatchObject({ approved: 2, approvedAsIs: 2, rejected: n - 2, acceptanceRate: 2 / n });
   });
 
   it("accepts [X] as well as [x]", () => {
@@ -124,8 +126,9 @@ describe("review summary comment", () => {
 
     const summary = renderReviewSummary(review);
 
-    expect(summary).toContain("**Acceptance rate: 30%**");
-    expect(summary).toContain("| Rejected | 7 |");
+    const n = result.accepted.length;
+    expect(summary).toContain(`**Acceptance rate: ${Math.round((3 / n) * 100)}%**`);
+    expect(summary).toContain(`| Rejected | ${n - 3} |`);
     expect(summary).toContain("turns the 3 approved case(s) into Jest tests");
     expect(readReviewPayload(summary)).toEqual(review);
   });

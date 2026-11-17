@@ -39,6 +39,7 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | Phase 2, step 4: AI test writer (approved cases -> Jest tests, run once -> pull request) | done |
 | **Phase 2 complete** | done |
 | Phase 3, step 1: price estimate (`GET /pricing`) | done |
-| Phase 3, step 2: AI ad writer | next |
+| Phase 3, step 2: AI ad writer (`POST /listings/generate`) | done |
+| Phase 3, step 3: AI chat about a car | next |
 
 Details: [docs/phase1.md](docs/phase1.md) (the app), [docs/phase2.md](docs/phase2.md) (QA Pilot), [docs/phase3.md](docs/phase3.md) (more features, testing at scale).
