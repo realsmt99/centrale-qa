@@ -16,6 +16,8 @@
 import { fieldsOf, listEndpoints, type Endpoint, type OpenApiSpec } from "../openapi";
 import type { TestCase, TestDesign } from "../designer/schema";
 import type { AiClient, AiRequest, AiResponse } from "./client";
+import { mockWriteTests } from "../writer/mock-writer";
+import type { ApprovedCase } from "../writer/write";
 
 const STOPWORDS = new Set(
   "a an and the of to in on for is are be can i my me as it its with must should will by or at this that from one new".split(" "),
@@ -174,15 +176,15 @@ export class MockAiClient implements AiClient {
   readonly model = "rule-based-v1";
 
   async generate<T>(request: AiRequest<T>): Promise<AiResponse> {
-    if (request.action !== "design_tests") {
+    let output: unknown;
+    if (request.action === "design_tests") {
+      const { storyId, story, spec } = request.context as { storyId: string; story: string; spec: OpenApiSpec };
+      output = mockDesign(storyId, story, spec);
+    } else if (request.action === "write_tests") {
+      output = mockWriteTests((request.context as { cases: ApprovedCase[] }).cases);
+    } else {
       throw new Error(`MockAiClient does not support action "${request.action}"`);
     }
-    const { storyId, story, spec } = request.context as { storyId: string; story: string; spec: OpenApiSpec };
-    return {
-      output: mockDesign(storyId, story, spec),
-      provider: this.provider,
-      model: this.model,
-      stopReason: "end_turn",
-    };
+    return { output, provider: this.provider, model: this.model, stopReason: "end_turn" };
   }
 }

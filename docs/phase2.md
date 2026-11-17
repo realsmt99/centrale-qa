@@ -7,7 +7,7 @@ QA Pilot turns a user story into tests, with a human in control at every key ste
 | 1. User story | Human (GitHub Issue, or a Markdown file in `stories/`) | done |
 | 2. Propose test cases | AI, checked by guardrails | **done** |
 | 3. Approve, edit or reject each case | Human (checklist on the GitHub Issue) | **done** |
-| 4. Write the approved tests as code, run them once, open a PR | AI, checked by guardrails | next |
+| 4. Write the approved tests as code, run them once, open a PR | AI, checked by guardrails | **done** |
 
 > Core principle: the AI proposes, explores and analyzes. Pass/fail decisions stay deterministic, and a human validates the key steps.
 
@@ -93,3 +93,45 @@ These use your own `gh` login, so comments appear under your GitHub account. Fro
 - **Labels as the trigger**: only people with triage or write access can add labels, so a stranger opening an issue on a public repo can't start the AI or spend the API budget.
 - **Issue text is untrusted input**: the script reads it through the GitHub API and passes data to `gh` as arguments and stdin, never through a shell. The workflow never puts issue text inside a `run:` command.
 - **Endpoints can't be edited**: the reviewer can change the wording, steps and expected result, but the endpoint stays the one the guardrails checked against `openapi.json`.
+
+## Step 4: the AI test writer
+
+Right after the review is recorded (label `qa-pilot:approved`), the workflow job **"Write the approved tests and open a pull request"** runs:
+
+```bash
+npm run qa:issue-write -- 7            # write, run once, open a PR, link it on the issue
+npm run qa:issue-write -- 7 --dry-run  # same, but files go to reports/qa-pilot/<story>/generated/
+```
+
+### How it works
+1. **Input**: the approved cases, read from the review summary on the issue (with the reviewer's edits and notes).
+2. **The AI writes test bodies only**: one `it("TC-05 ...", ...)` per case. QA Pilot adds the imports itself, so the AI can't bring in anything else. Claude gets the approved cases, the allowed helpers, one known-good request per endpoint (`qa-pilot/writer/examples.ts`, like saved Postman examples), the spec and the DB schema.
+3. **Code guardrails** (`qa-pilot/writer/guardrails.ts`) remove a test that:
+
+   | Problem | Example |
+   |---|---|
+   | implements a case nobody approved | `TC-09` when only TC-01 and TC-05 were ticked |
+   | has the wrong shape, or no `expect(...)` | two tests in one block |
+   | uses something outside the allowed helpers | `import`, `require`, `process`, `fs`, `fetch`, `eval`, `db.prepare(...)`, `.only`/`.skip`, calls to another server |
+
+4. **Read-only database**: AI-written tests can read the DB only through `sqlCheck(db, sql)`. It asks **SQLite itself** whether the statement is read-only and refuses anything else (`tests/qa-helpers.ts`).
+5. **Run once**: the kept tests run with Jest before anything is committed.
+   - The file **can't run at all** (type error, crash): the AI gets the error and **one** retry. After that QA Pilot stops: broken code never reaches a PR.
+   - A test **runs and fails**: that's useful. It may have found a bug. It goes to the bug-hunt suite, with the first-run failure as a comment (stack traces removed, so no local paths leak).
+6. **Pull request, never `main`**: passing tests go to `tests/generated/<story>.ai.test.ts` (regression, must keep passing), failing ones to `tests/generated/<story>.ai.bughunt.test.ts` (non-blocking). QA Pilot pushes a new `qa-pilot/...` branch from a temporary `git worktree` (your own checkout is never touched), opens the PR, and links it on the issue. A human reviews and merges. QA Pilot never merges its own PRs.
+
+### Results on US-001 (issue #7, mock writer)
+The reviewer approved TC-01, TC-05 and TC-09. All three were written and **passed their first run**:
+- TC-01: `GET /search` returns 200
+- TC-05: import without a token gets 401, and `sqlCheck` confirms nothing was saved
+- TC-09: after an import, `sqlCheck` reads the stored rows back and they match what was sent
+
+What-if check: had the reviewer also approved TC-08 ("price = 0 is rejected"), its test would have **failed on its first run** (`Expected: 400, Received: 200`) and gone to the bug-hunt suite: a real bug, found from the story.
+
+### A false positive, found and fixed
+On the first dry run, the guardrail that blocks `import` statements also matched the word "import" in the URL `/feeds/import`, and removed 2 valid tests out of 3. The rule now matches only real import statements, and a test locks that in (`tests/qa-pilot/writer.test.ts`). Checking a guardrail's false positives is part of building it.
+
+### Limits to know
+- PRs opened from a workflow with the default `GITHUB_TOKEN` **don't trigger other workflows**, so CI won't start on its own on QA Pilot's PR (a GitHub safety rule). Close and reopen the PR, push to it, or use a GitHub App token.
+- For the workflow to open PRs at all, enable **Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests"**.
+- The mock writer only knows a few case shapes. Anything else is reported as "not covered" rather than guessed. Claude handles free-form cases.
