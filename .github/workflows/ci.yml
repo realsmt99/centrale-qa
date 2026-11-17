@@ -1,0 +1,61 @@
+# CI for Mini La Centrale.
+#
+# Two jobs, on purpose:
+#   regression -> tests that MUST pass. A red result blocks the merge.
+#   bughunt    -> tests that hit known (planted) bugs. They are expected to fail,
+#                 so this job may fail without blocking anything. Its JUnit report
+#                 is saved for QA Pilot's AI triage (Phase 4).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  regression:
+    name: Regression tests (must pass)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - name: Run regression tests
+        run: npm test -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: regression.xml
+      - name: Save JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-regression
+          path: reports/
+
+  bughunt:
+    name: Bug-hunt tests (known bugs, allowed to fail)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run bug-hunt tests
+        run: npm run test:bughunt -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: reports
+          JEST_JUNIT_OUTPUT_NAME: bughunt.xml
+      - name: Save JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-bughunt
+          path: reports/

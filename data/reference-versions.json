@@ -1,0 +1,1020 @@
+[
+  {
+    "id": 1,
+    "brand": "Peugeot",
+    "model": "208",
+    "version": "1.2 PureTech 75 Like",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 75,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 18500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 2,
+    "brand": "Peugeot",
+    "model": "208",
+    "version": "1.2 PureTech 100 Allure",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 100,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 23300,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 3,
+    "brand": "Peugeot",
+    "model": "208",
+    "version": "1.5 BlueHDi 100 Active",
+    "fuel": "diesel",
+    "gearbox": "manual",
+    "powerHp": 100,
+    "yearStart": 2019,
+    "yearEnd": 2023,
+    "newPrice": 22900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 4,
+    "brand": "Peugeot",
+    "model": "208",
+    "version": "e-208 156 GT",
+    "fuel": "electric",
+    "gearbox": "automatic",
+    "powerHp": 156,
+    "yearStart": 2023,
+    "yearEnd": null,
+    "newPrice": 37500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 5,
+    "brand": "Peugeot",
+    "model": "3008",
+    "version": "1.5 BlueHDi 130 EAT8 Allure",
+    "fuel": "diesel",
+    "gearbox": "automatic",
+    "powerHp": 130,
+    "yearStart": 2017,
+    "yearEnd": 2023,
+    "newPrice": 38900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 6,
+    "brand": "Peugeot",
+    "model": "3008",
+    "version": "Hybrid 136 e-DCS6 Allure",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 136,
+    "yearStart": 2024,
+    "yearEnd": null,
+    "newPrice": 39500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 7,
+    "brand": "Peugeot",
+    "model": "3008",
+    "version": "Hybrid4 300 e-EAT8 GT",
+    "fuel": "plug_in_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 300,
+    "yearStart": 2020,
+    "yearEnd": 2023,
+    "newPrice": 52900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 8,
+    "brand": "Renault",
+    "model": "Clio",
+    "version": "TCe 90 Evolution",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 90,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 20900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 9,
+    "brand": "Renault",
+    "model": "Clio",
+    "version": "E-Tech full hybrid 145 Esprit Alpine",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 145,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 27500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 10,
+    "brand": "Renault",
+    "model": "Clio",
+    "version": "Blue dCi 100 Business",
+    "fuel": "diesel",
+    "gearbox": "manual",
+    "powerHp": 100,
+    "yearStart": 2019,
+    "yearEnd": 2023,
+    "newPrice": 22400,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 11,
+    "brand": "Renault",
+    "model": "Captur",
+    "version": "TCe 90 Equilibre",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 90,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 24200,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 12,
+    "brand": "Renault",
+    "model": "Captur",
+    "version": "E-Tech full hybrid 145 Techno",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 145,
+    "yearStart": 2022,
+    "yearEnd": null,
+    "newPrice": 31600,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 13,
+    "brand": "Renault",
+    "model": "Megane",
+    "version": "E-Tech EV60 220 Techno",
+    "fuel": "electric",
+    "gearbox": "automatic",
+    "powerHp": 220,
+    "yearStart": 2022,
+    "yearEnd": null,
+    "newPrice": 41500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 14,
+    "brand": "Renault",
+    "model": "Megane",
+    "version": "Blue dCi 115 EDC Business",
+    "fuel": "diesel",
+    "gearbox": "automatic",
+    "powerHp": 115,
+    "yearStart": 2019,
+    "yearEnd": 2022,
+    "newPrice": 29900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 15,
+    "brand": "Dacia",
+    "model": "Sandero",
+    "version": "SCe 65 Essential",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 65,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 12500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 16,
+    "brand": "Dacia",
+    "model": "Sandero",
+    "version": "Stepway TCe 90 Expression",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 90,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 16400,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 17,
+    "brand": "Dacia",
+    "model": "Sandero",
+    "version": "Stepway ECO-G 100 Extreme",
+    "fuel": "lpg",
+    "gearbox": "manual",
+    "powerHp": 100,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 17500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 18,
+    "brand": "Dacia",
+    "model": "Duster",
+    "version": "Blue dCi 115 4x4 Journey",
+    "fuel": "diesel",
+    "gearbox": "manual",
+    "powerHp": 115,
+    "yearStart": 2022,
+    "yearEnd": 2024,
+    "newPrice": 26900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 19,
+    "brand": "Dacia",
+    "model": "Duster",
+    "version": "Hybrid 140 Journey",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 140,
+    "yearStart": 2024,
+    "yearEnd": null,
+    "newPrice": 27900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 20,
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "version": "1.5 TSI 130 Life",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 130,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 32500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 21,
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "version": "2.0 TDI 115 Life",
+    "fuel": "diesel",
+    "gearbox": "manual",
+    "powerHp": 115,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 34200,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 22,
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "version": "GTI 245 DSG7",
+    "fuel": "petrol",
+    "gearbox": "automatic",
+    "powerHp": 245,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 46900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 23,
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "version": "1.4 eHybrid 204 DSG6 Style",
+    "fuel": "plug_in_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 204,
+    "yearStart": 2020,
+    "yearEnd": 2024,
+    "newPrice": 44900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 24,
+    "brand": "Volkswagen",
+    "model": "Polo",
+    "version": "1.0 TSI 95 Life",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 95,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 22900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 25,
+    "brand": "Volkswagen",
+    "model": "Polo",
+    "version": "1.0 TSI 110 DSG7 R-Line",
+    "fuel": "petrol",
+    "gearbox": "automatic",
+    "powerHp": 110,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 27200,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 26,
+    "brand": "Toyota",
+    "model": "Yaris",
+    "version": "Hybride 116h Dynamic",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 116,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 25900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 27,
+    "brand": "Toyota",
+    "model": "Yaris",
+    "version": "1.0 VVT-i 72 France",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 72,
+    "yearStart": 2020,
+    "yearEnd": 2022,
+    "newPrice": 17900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 28,
+    "brand": "Toyota",
+    "model": "C-HR",
+    "version": "1.8 Hybride 140 Dynamic",
+    "fuel": "hybrid",
+    "gearbox": "automatic",
+    "powerHp": 140,
+    "yearStart": 2023,
+    "yearEnd": null,
+    "newPrice": 35900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 29,
+    "brand": "Toyota",
+    "model": "C-HR",
+    "version": "2.0 Hybride rechargeable 223 GR Sport",
+    "fuel": "plug_in_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 223,
+    "yearStart": 2024,
+    "yearEnd": null,
+    "newPrice": 45900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 30,
+    "brand": "Tesla",
+    "model": "Model 3",
+    "version": "Propulsion",
+    "fuel": "electric",
+    "gearbox": "automatic",
+    "powerHp": 283,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 39990,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 31,
+    "brand": "Tesla",
+    "model": "Model 3",
+    "version": "Grande Autonomie AWD",
+    "fuel": "electric",
+    "gearbox": "automatic",
+    "powerHp": 498,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 49990,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 32,
+    "brand": "Citroen",
+    "model": "C3",
+    "version": "PureTech 83 Feel",
+    "fuel": "petrol",
+    "gearbox": "manual",
+    "powerHp": 83,
+    "yearStart": 2017,
+    "yearEnd": 2023,
+    "newPrice": 17900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 33,
+    "brand": "Citroen",
+    "model": "C3",
+    "version": "BlueHDi 100 Shine",
+    "fuel": "diesel",
+    "gearbox": "manual",
+    "powerHp": 100,
+    "yearStart": 2017,
+    "yearEnd": 2023,
+    "newPrice": 21300,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "heated_seats",
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 34,
+    "brand": "Mercedes-Benz",
+    "model": "Classe C",
+    "version": "220 d 9G-Tronic Avantgarde",
+    "fuel": "diesel",
+    "gearbox": "automatic",
+    "powerHp": 200,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 54900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 35,
+    "brand": "Mercedes-Benz",
+    "model": "Classe C",
+    "version": "300 de 9G-Tronic AMG Line",
+    "fuel": "diesel_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 313,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 64900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 36,
+    "brand": "Volvo",
+    "model": "XC60",
+    "version": "B4 197 Geartronic Plus",
+    "fuel": "diesel_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 197,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 56900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 37,
+    "brand": "Volvo",
+    "model": "XC60",
+    "version": "T6 Recharge AWD Plus",
+    "fuel": "plug_in_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 350,
+    "yearStart": 2020,
+    "yearEnd": null,
+    "newPrice": 67900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 38,
+    "brand": "BMW",
+    "model": "Serie 3",
+    "version": "320d xDrive M Sport",
+    "fuel": "diesel",
+    "gearbox": "automatic",
+    "powerHp": 190,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 55900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "hifi_audio"
+    ]
+  },
+  {
+    "id": 39,
+    "brand": "BMW",
+    "model": "Serie 3",
+    "version": "330e M Sport",
+    "fuel": "plug_in_hybrid",
+    "gearbox": "automatic",
+    "powerHp": 292,
+    "yearStart": 2019,
+    "yearEnd": null,
+    "newPrice": 57900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors",
+      "navigation",
+      "reversing_camera",
+      "heated_seats"
+    ],
+    "optionalEquipment": [
+      "adaptive_cruise_control",
+      "towbar"
+    ]
+  },
+  {
+    "id": 40,
+    "brand": "Fiat",
+    "model": "500",
+    "version": "1.0 Hybrid 70 Dolcevita",
+    "fuel": "hybrid",
+    "gearbox": "manual",
+    "powerHp": 70,
+    "yearStart": 2020,
+    "yearEnd": 2024,
+    "newPrice": 18500,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control"
+    ],
+    "optionalEquipment": [
+      "panoramic_roof",
+      "navigation",
+      "metallic_paint"
+    ]
+  },
+  {
+    "id": 41,
+    "brand": "Fiat",
+    "model": "500",
+    "version": "500e 118 La Prima",
+    "fuel": "electric",
+    "gearbox": "automatic",
+    "powerHp": 118,
+    "yearStart": 2021,
+    "yearEnd": null,
+    "newPrice": 34900,
+    "standardEquipment": [
+      "air_conditioning",
+      "bluetooth",
+      "cruise_control",
+      "touchscreen",
+      "apple_carplay",
+      "rear_parking_sensors"
+    ],
+    "optionalEquipment": [
+      "reversing_camera",
+      "hifi_audio"
+    ]
+  }
+]

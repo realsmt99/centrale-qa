@@ -24,3 +24,11 @@ venv/
 
 # Logs
 *.log
+
+# Project
+data/*.db
+data/*.db-*
+reports/
+
+# Private answer key (never commit)
+HIDDEN_BUGS.md
