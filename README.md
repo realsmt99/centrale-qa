@@ -11,6 +11,8 @@ All data is synthetic (generated from a small catalogue of real French-market ca
 
 ## Run it
 
+Needs Node.js 22 or newer.
+
 ```bash
 npm install
 npm run seed        # builds data/centrale.db (5,000 listings)
@@ -28,6 +30,6 @@ Write endpoints need `Authorization: Bearer dev-token` (set `API_TOKEN` to chang
 | Module 1: stock import | next |
 | Module 2: plate lookup | planned |
 | Module 3: search | planned |
-| CI (GitHub Actions) | planned |
+| CI (GitHub Actions: regression + bug-hunt jobs) | done |
 
 Details for each step are in [docs/phase1.md](docs/phase1.md).
