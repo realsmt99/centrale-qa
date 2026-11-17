@@ -99,3 +99,45 @@ It works in two steps, like in real life:
 - **Normalize input, don't reject it**: users type plates in many ways. Accepting all common forms and returning one canonical form avoids false "not found" errors.
 - **Distinct error codes**: 400 (your input is wrong), 404 (we don't know this plate), 422 (we know it but can't identify the version). Each one points to a different fix.
 - **The registry is separate from the catalogue**: identifying a version from registration data is a real matching problem, and the place where wrong answers come from. Modelling it honestly makes the tests meaningful.
+
+## Step 4: Module 3, search (+ a flaky dependency)
+
+### What it does
+`GET /search` lets buyers filter **active** listings (sold cars never appear):
+
+| Parameter | Meaning |
+|---|---|
+| `brand`, `model` | Exact match, case-insensitive |
+| `fuel` | One of `petrol`, `diesel`, `hybrid`, `plug_in_hybrid`, `diesel_hybrid`, `electric`, `lpg` |
+| `priceMin`, `priceMax`, `yearMin`, `yearMax` | Ranges, bounds included |
+| `sort` | `price_asc` (default), `price_desc`, `year_desc`, `mileage_asc` |
+| `page`, `pageSize` | Pagination, `pageSize` 1-100 (default 20) |
+
+Each result has a **price rating** compared with the average active price of the same version and year: `good_deal` (< 90%), `fair`, or `high` (> 110%).
+
+Invalid input gives 400: unknown fuel, `priceMin > priceMax`, `pageSize > 100`, page 0, negative prices.
+
+`GET /dealer-sync/status` reports each dealer's last stock sync. It simulates a dependency we don't control (the dealers' own software) that sometimes times out with 503. Tests that call it are **flaky**: they fail sometimes with no code change. That's on purpose: in Phase 4, QA Pilot's triage must tell "flaky" apart from "real bug".
+
+### Files
+| File | Role |
+|---|---|
+| `src/search.ts` | Filters, sorting, pagination, price rating |
+| `src/routes/search.ts` | HTTP route, query validation |
+| `src/routes/dealer-sync.ts` | Simulated unreliable upstream service |
+| `tests/search-fixture.ts` | 8 hand-made cars, so every expected result is checkable by eye |
+| `tests/search.test.ts` | 22 regression tests |
+| `tests/search.bughunt.test.ts` | Data-driven: "fuel=X returns only X", for all 7 fuels |
+| `tests/dealer-sync.flaky.test.ts` | The flaky test |
+
+### Test jobs
+| Command | CI job | Contains | Must pass? |
+|---|---|---|---|
+| `npm test` | Regression tests | Everything except `*.bughunt.*` and `*.flaky.*` | Yes |
+| `npm run test:bughunt` | Bug-hunt and flaky tests | `*.bughunt.*` + `*.flaky.*` | No (reported, not blocking) |
+
+### Design choices (simple version)
+- **Small fixture for exact answers**: with 8 known cars, a test can say "the answer is exactly these 3 prices". With 5,000 random cars, you can only check properties.
+- **Data-driven test**: one rule ("fuel=X returns only X") checked for every fuel with `it.each`. One idea, 7 tests.
+- **Pagination tested as a whole**: walk all pages and check there are no duplicates and no gaps, not just "page 2 has 2 items".
+- **Flaky tests are kept out of the blocking job**: a test that fails randomly in the main job teaches people to ignore red builds.

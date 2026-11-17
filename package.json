@@ -7,8 +7,8 @@
     "start": "tsx src/server.ts",
     "seed": "tsx data/generate.ts",
     "typecheck": "tsc --noEmit",
-    "test": "jest --testPathIgnorePatterns bughunt",
-    "test:bughunt": "jest bughunt --passWithNoTests",
+    "test": "jest --testPathIgnorePatterns bughunt flaky",
+    "test:bughunt": "jest bughunt flaky --passWithNoTests",
     "test:all": "jest"
   },
   "author": "",
